@@ -17,7 +17,7 @@ function PizzaBlock({ id, imageUrl, title, types, sizes, price, category, rating
 
 	const [activeSize, setActiveSize] = useState(0);
 	
-	// TODO #5
+	
 
 	return (
 		<div className="pizza-block">
