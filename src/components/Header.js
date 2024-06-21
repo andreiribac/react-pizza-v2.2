@@ -6,7 +6,7 @@ import logo from '../assets/img/pizza-logo.svg'
 function Header() {
   return (
 	  <div className="header">
-		  <Link className="container">
+		  <div className="container">
 			  <Link to="/" className="header__logo">
 				  <img width="38" src={logo} alt="Pizza logo" />
 				  <div>
@@ -50,7 +50,7 @@ function Header() {
 					  <span>3</span>
 				  </Link>
 			  </div>
-		  </Link>
+		  </div>
 	  </div>
   )
 }

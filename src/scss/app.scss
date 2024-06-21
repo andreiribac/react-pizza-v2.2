@@ -69,6 +69,8 @@ body {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		flex-wrap: wrap;
+		gap: 40px;
 	}
 
 	.content__title {
@@ -119,9 +121,14 @@ body {
 			}
 		}
 	}
-
-	&__item {
+	&__items {
 		display: flex;
+		justify-content: center;;
+		flex-wrap: wrap;
+		gap: 40px;
+	}
+	&__item {
+		max-width: 230px;
 		width: 100%;
 		border-top: 1px solid $gray-line;
 		padding-top: 30px;
@@ -130,12 +137,13 @@ body {
 		&-img {
 			display: flex;
 			align-items: center;
-			margin-right: 15px;
-			width: 10%;
+			margin: 0 auto;
+			width: 180px;
+			height: 180px;
 
 			img {
-				width: 80px;
-				height: 80px;
+				width: 100%;
+				height: 100%;
 			}
 		}
 
@@ -143,7 +151,7 @@ body {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			width: 40%;
+			width: 100%;
 
 			h3 {
 				font-weight: bold;
@@ -162,7 +170,8 @@ body {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			width: 13%;
+			margin: 10px auto;
+			width: 70%;
 
 			&-minus {
 				svg {
@@ -181,7 +190,7 @@ body {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 33%;
+			width: 100%;
 
 			b {
 				font-weight: bold;
@@ -194,7 +203,6 @@ body {
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
-			width: 4%;
 
 			.button {
 				border-color: darken($color: $gray-line, $amount: 10);
@@ -229,6 +237,8 @@ body {
 		&-details {
 			display: flex;
 			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 30px;
 
 			span {
 				font-size: 22px;
@@ -244,6 +254,8 @@ body {
 		&-buttons {
 			display: flex;
 			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 30px;
 			margin-top: 40px;
 
 			.go-back-btn {
@@ -321,6 +333,26 @@ body {
 			margin: 0 auto;
 			font-weight: 600;
 			font-size: 18px;
+		}
+	}
+	@media screen and (min-width: 900px) {
+		&__item {
+			display: flex;
+			max-width: 100%;
+		}
+		&__item-img {
+			margin: 0 15px 0 0;
+			width: 80px;
+			height: 80px;
+		}
+		&__item-info {
+			width: 40%;
+		}
+		&__item-count {
+			width: 13%;
+		}
+		&__item-price {
+			width: 33%;
 		}
 	}
 }
