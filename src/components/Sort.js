@@ -10,13 +10,14 @@ export const sortList = [
 	{ name: 'алфавиту (ASC)', sortProperty: '-title' }
 ];
 
-function Sort() {
+
+function Sort({ value, onChangeSort }) {
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const [activeSort, setActiveSort] = useState(0);
-	const onClickListItem = (i) => {
-		setActiveSort(i);
+	
+	const onClickListItem = (item) => {
+		onChangeSort(item);
 		setIsOpen(false);
 	}
 
@@ -36,7 +37,7 @@ function Sort() {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setIsOpen(!isOpen)}>{sortList[activeSort].name}</span>
+				<span onClick={() => setIsOpen(!isOpen)}>{value.name}</span>
 			</div>
 			{
 				isOpen &&
@@ -47,8 +48,8 @@ function Sort() {
 								return (
 									<li
 										key={item.name}
-										onClick={() => onClickListItem(i)}
-										className={activeSort === i ? "active" : 0}
+										onClick={() => onClickListItem(item)}
+										className={value.sortProperty === item.sortProperty ? "active" : 0}
 									>
 										{item.name}
 									</li>
