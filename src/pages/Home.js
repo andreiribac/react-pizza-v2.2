@@ -33,7 +33,7 @@ function Home() {
 		window.scrollTo(0, 0);
 	}, [categoryId, sort])
 
-// TODO #10  
+// TODO #10  6.26 
 
 	return (
 		<div className="container">
