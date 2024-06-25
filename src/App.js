@@ -10,17 +10,14 @@ import './scss/app.scss';
 
 function App() {
 
-
-
-
-	//TODO #8
+	const [searchValue, setSearchValue] = useState('');
 
 	return (
 		<div className="wrapper">
-			<Header />
+			<Header searchValue={searchValue} setSearchValue={setSearchValue} />
 			<div className="content">
 				<Routes>
-					<Route index path="/" element={<Home />} />
+					<Route index path="/" element={<Home searchValue={searchValue} />} />
 					<Route path="/cart" element={<Cart />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
