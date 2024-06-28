@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
 // import pizzas from '../assets/pizzas.json';
+import { SearchContext } from '../App'
+
+import {increment, decrement} from '../redux/slices/filterSlice'
 
 
 
 
-function Home({ searchValue  }) {
-
+function Home() {
+	const { searchValue } = useContext(SearchContext);
 	const [items, setItems] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -27,6 +31,9 @@ function Home({ searchValue  }) {
 		return obj.title.toLowerCase().includes(searchValue.toLowerCase())
 	}).map((item) => <PizzaBlock key={item.id} {...item} />);
 
+	const filter = useSelector((state) => state.filter.value);
+	const dispatch = useDispatch();
+
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -43,12 +50,35 @@ function Home({ searchValue  }) {
 				setIsLoading(false);
 			});
 		window.scrollTo(0, 0);
-	}, [categoryId, sort, currentPage])
+	}, [categoryId, sort, currentPage, searchValue])
 
-// TODO #11
+	
 
 	return (
 		<div className="container">
+
+			
+			<div>
+				<div>
+					<button
+						aria-label="Increment value"
+						onClick={() => dispatch(increment())}
+					>
+						Increment
+					</button>
+					<span>{filter}</span>
+					<button
+						aria-label="Decrement value"
+						onClick={() => dispatch(decrement())}
+					>
+						Decrement
+					</button>
+				</div>
+			</div>
+
+
+
+
 			<div className="content__top">
 				<Categories value={categoryId} onChangeCategory={onClickCategory} />
 				<Sort value={sort} onChangeSort={setSort} />

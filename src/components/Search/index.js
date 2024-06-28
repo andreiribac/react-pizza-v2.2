@@ -2,8 +2,10 @@ import React, { useContext, useRef, useCallback, useState } from 'react';
 
 import styles from './Search.module.scss';
 import { IconSvgSelector } from '../../assets/icons/IconsSvgSelector';
+import { SearchContext } from '../../App';
 
-function Search({ searchValue, setSearchValue}) { 
+function Search() { 
+	const { searchValue, setSearchValue } = useContext(SearchContext)
 
 	return (
 		<label className={styles.inputArea}>
