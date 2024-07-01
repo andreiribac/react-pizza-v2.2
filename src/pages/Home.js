@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
 // import pizzas from '../assets/pizzas.json';
 import { SearchContext } from '../App'
@@ -10,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 function Home() {
 	const { searchValue } = useContext(SearchContext);
-	const {categoryId, sort} = useSelector((state) => state.filter);
+	const { categoryId, sort } = useSelector((state) => state.filter);
 
 	const [items, setItems] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -34,16 +35,26 @@ function Home() {
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 		const search = searchValue ? `search=${searchValue}` : '';
 
-		fetch(`https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`)
-			.then(res => res.json())
-			.then(json => {
-				setItems(json);
+		// fetch(`https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`)
+		// 	.then(res => res.json())
+		// 	.then(json => {
+		// 		setItems(json);
+		// 		setIsLoading(false);
+		// 	});
+
+		let urlPath = `https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`;
+
+		axios
+			.get(urlPath)
+			.then(res => {
+				setItems(res.data);
 				setIsLoading(false);
 			});
+
 		window.scrollTo(0, 0);
 	}, [categoryId, sort.sortProperty, currentPage, searchValue])
 
-	
+
 
 	return (
 		<div className="container">
