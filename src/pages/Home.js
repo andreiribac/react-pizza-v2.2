@@ -1,59 +1,93 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import qs from 'qs';
 import axios from 'axios';
-import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
-// import pizzas from '../assets/pizzas.json';
-import { SearchContext } from '../App'
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
+import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
+import { SearchContext } from '../App';
+import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { sortList } from '../components/Sort';
+
+// import pizzas from '../assets/pizzas.json';
 
 
 
 
 
 function Home() {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const isSearch = useRef(false);
+	const isMounted = useRef(false);
 	const { searchValue } = useContext(SearchContext);
-	const { categoryId, sort } = useSelector((state) => state.filter);
+	const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
 
 	const [items, setItems] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-
-
-	const [currentPage, setCurrentPage] = useState(1);
-	const onChangePage = (number) => {
-		setCurrentPage(number);
-	};
 
 	const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
 	const pizzas = items.filter(obj => {
 		return obj.title.toLowerCase().includes(searchValue.toLowerCase())
 	}).map((item) => <PizzaBlock key={item.id} {...item} />);
 
-	useEffect(() => {
+	const onChangePage = (number) => {
+		dispatch(setCurrentPage(number))
+	};
+
+	const fetchPizzas = () => {
 		setIsLoading(true);
 
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
 		const sortBy = sort.sortProperty.replace('-', '');
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-		const search = searchValue ? `search=${searchValue}` : '';
-
-		// fetch(`https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`)
-		// 	.then(res => res.json())
-		// 	.then(json => {
-		// 		setItems(json);
-		// 		setIsLoading(false);
-		// 	});
-
-		let urlPath = `https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`;
+		const search = searchValue ? `&search=${searchValue}` : '';
 
 		axios
-			.get(urlPath)
+			.get(
+				`https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`
+			)
 			.then(res => {
 				setItems(res.data);
 				setIsLoading(false);
 			});
+	}
+	//  Если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
+	useEffect(() => {
+		if (window.location.search) {
+			const params = qs.parse(window.location.search.substring(1));
 
+			const sort = sortList.find(obj => obj.sortProperty === params.sortProperty);
+
+			dispatch(
+				setFilters({
+					...params,
+					sort
+				})
+			);
+			isSearch.current = true;
+		}
+	}, [])
+	// Если был первый рендер то запрашиваем пиццы
+	useEffect(() => {
+		if (!isSearch.current) {
+			fetchPizzas();
+		}
+		isSearch.current = false;
 		window.scrollTo(0, 0);
 	}, [categoryId, sort.sortProperty, currentPage, searchValue])
 
+	// Если изменили параметры и был первый рендер
+	useEffect(() => {
+		if (isMounted.current) {
+			const queryString = qs.stringify({
+				sortProperty: sort.sortProperty,
+				categoryId,
+				currentPage,
+			});
+			navigate(`?${queryString}`);
+		}
+		isMounted.current = true;
+	}, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
 
 	return (
