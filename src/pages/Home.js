@@ -6,12 +6,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
 import { SearchContext } from '../App';
 import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setItems } from '../redux/slices/pizzasSlice';
 import { sortList } from '../components/Sort';
-
-// import pizzas from '../assets/pizzas.json';
-
-
-
 
 
 function Home() {
@@ -19,11 +15,11 @@ function Home() {
 	const dispatch = useDispatch();
 	const isSearch = useRef(false);
 	const isMounted = useRef(false);
+	const items = useSelector((state) => state.pizzas.items);
 	const { searchValue } = useContext(SearchContext);
 	const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-
-	const [items, setItems] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	
 
 	const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
 	const pizzas = items.filter(obj => {
@@ -34,7 +30,7 @@ function Home() {
 		dispatch(setCurrentPage(number))
 	};
 
-	const fetchPizzas = () => {
+	const fetchPizzas = async () => {
 		setIsLoading(true);
 
 		const category = categoryId > 0 ? `category=${categoryId}` : '';
@@ -42,14 +38,19 @@ function Home() {
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 		const search = searchValue ? `&search=${searchValue}` : '';
 
-		axios
-			.get(
+		
+		try {
+			const {data} = await axios.get(
 				`https://62cd50e9066bd2b6992348cd.mockapi.io/items?page=${currentPage}&limit=4${search}&${category}&sortBy=${sortBy}&order=${order}`
-			)
-			.then(res => {
-				setItems(res.data);
-				setIsLoading(false);
-			});
+			);
+			dispatch(setItems(data));
+		} catch (error) {
+			console.log(error, 'Axios Error');
+			alert('Ошибка получения пицц')
+		} finally {
+			setIsLoading(false);
+		}
+
 	}
 	//  Если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
 	useEffect(() => {
@@ -69,9 +70,10 @@ function Home() {
 	}, [])
 	// Если был первый рендер то запрашиваем пиццы
 	useEffect(() => {
-		if (!isSearch.current) {
-			fetchPizzas();
-		}
+		// if (!isSearch.current) {
+		// 	fetchPizzas();
+		// }
+		fetchPizzas();
 		isSearch.current = false;
 		window.scrollTo(0, 0);
 	}, [categoryId, sort.sortProperty, currentPage, searchValue])

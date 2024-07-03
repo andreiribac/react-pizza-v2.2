@@ -40,20 +40,7 @@ function Sort() {
 		}
 	}, [isOpen])
 
-	// useEffect(() => {
-	// 	const handleClickOutside = (event) => {
-	// 		const path = event.path || (event.composedPath && event.composedPath());
-	// 		if (!path.includes(sortRef.current)) {
-	// 			setIsOpen(false);
-	// 		}
-	// 	}
-	// 	document.body.addEventListener('click', handleClickOutside);
-	// 	return () => {
-	// 		document.body.removeEventListener('click', handleClickOutside);
-	// 	}
-	// }, [])
 	
-
 	return (
 		<div ref={sortRef} className="sort">
 			<div className="sort__label">

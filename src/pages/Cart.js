@@ -64,8 +64,6 @@ function Cart() {
 					<CartEmpty />
 				)
 			}
-
-
 		</div>
 	)
 }
