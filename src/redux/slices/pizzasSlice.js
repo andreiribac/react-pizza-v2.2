@@ -14,7 +14,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchPizzas = createAsyncThunk(
 	'pizzas/fetchPizzasStatus',
-	async (params) => {
+	async (params, thunkAPI) => {
 		const { category, sortBy, order, search, currentPage } = params;
 
 		// Формируем часть URL с корректными параметрами
@@ -70,6 +70,8 @@ const pizzasSlice = createSlice({
 			});
 	},
 });
+
+export const selectPizzas = (state) => state.pizzas;
 
 export const { setItems } = pizzasSlice.actions;
 
