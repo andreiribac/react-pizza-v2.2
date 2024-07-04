@@ -3,8 +3,7 @@ import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination, NotFoundBlock } from '../components';
-import { SearchContext } from '../App';
-import { setCurrentPage, setFilters, selectFilter } from '../redux/slices/filterSlice';
+import { setCurrentPage, setFilters, selectFilter, selectFilterSearchValue } from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
 import { sortList } from '../components/Sort';
 
@@ -15,8 +14,7 @@ function Home() {
 	const isSearch = useRef(false);
 	const isMounted = useRef(false);
 	const { items, status } = useSelector(selectPizzas);
-	const { searchValue } = useContext(SearchContext);
-	const { categoryId, sort, currentPage } = useSelector(selectFilter);
+	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 	
 
 	const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
