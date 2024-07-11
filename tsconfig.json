@@ -1,32 +1,35 @@
 {
   "compilerOptions": {
-    "target": "es5", // Specify ECMAScript target version
+    "target": "es5", // Указывает версию ECMAScript, в которую будет транслироваться ваш код
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
-    ], // List of library files to be included in the compilation
-    "allowJs": true, // Allow JavaScript files to be compiled
-    "skipLibCheck": true, // Skip type checking of all declaration files
-    "esModuleInterop": true, // Disables namespace imports (import * as fs from "fs") and enables CJS/AMD/UMD style imports (import fs from "fs")
-    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
-    "strict": true, // Enable all strict type checking options
-    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
-    "module": "esnext", // Specify module code generation
-    "moduleResolution": "node", // Resolve modules using Node.js style
-    "isolatedModules": true, // Unconditionally emit imports for unresolved files
-    "resolveJsonModule": true, // Include modules imported with .json extension
-    "noEmit": true, // Do not emit output (meaning do not compile code, only perform type checking)
-    "jsx": "react", // Support JSX in .tsx files
-    "sourceMap": true, // Generate corrresponding .map file
-    "declaration": true, // Generate corresponding .d.ts file
-    "noUnusedLocals": true, // Report errors on unused locals
-    "noUnusedParameters": true, // Report errors on unused parameters
-    "incremental": true, // Enable incremental compilation by reading/writing information from prior compilations to a file on disk
-    "noFallthroughCasesInSwitch": true // Report errors for fallthrough cases in switch statement
+      "esnext" // Указывает библиотеки, которые должны быть включены в компиляцию
+    ],
+    "allowJs": true, // Разрешает компиляцию JavaScript файлов вместе с TypeScript файлами
+    "skipLibCheck": true, // Пропускает проверку типов в декларационных файлах (.d.ts)
+    "esModuleInterop": true, // Включает возможность импорта CommonJS модулей в стиле ES6
+    "allowSyntheticDefaultImports": true, // Разрешает синтетические импорты по умолчанию из модулей, которые их не экспортируют
+    "strict": true, // Включает все строгие проверки типов
+    "forceConsistentCasingInFileNames": true, // Обеспечивает единообразие в регистре букв в именах файлов
+    "module": "esnext", // Указывает кодогенерацию для модулей, поддерживает самые современные стандарты
+    "moduleResolution": "node", // Определяет стратегию разрешения модулей
+    "isolatedModules": true, // Разрешает модули в изолированном режиме
+    "resolveJsonModule": true, // Включает поддержку импорта модулей с расширением .json
+    "noEmit": true, // Не генерировать выходные файлы; только проверка типов
+    "jsx": "react", // Поддержка JSX в файлах .tsx
+    "sourceMap": true, // Генерировать файлы .map для сопоставления исходного кода с компилированным
+    "declaration": true, // Генерировать файлы .d.ts для описания типов
+    "noUnusedLocals": true, // Сообщать об ошибках на неиспользуемые локальные переменные
+    "noUnusedParameters": true, // Сообщать об ошибках на неиспользуемые параметры функций
+    "incremental": true, // Включает инкрементальную компиляцию
+    "noFallthroughCasesInSwitch": true // Сообщать об ошибках на случаи, когда выполнение переходит в следующий блок switch
   },
   "include": [
-    "src/**/*" // *** The files TypeScript should type check ***
+    "src/**/*" // Указывает файлы для проверки типов
   ],
-  "exclude": ["node_modules", "build"] // *** The files to not type check ***
+  "exclude": [
+    "node_modules", // Исключает папку node_modules из проверки
+    "build" // Исключает папку build из проверки
+  ]
 }

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination, NotFoundBlock } from '../components';
-import { setCurrentPage, setFilters, selectFilter, selectFilterSearchValue } from '../redux/slices/filterSlice';
+import { setCurrentPage, setFilters, selectFilter} from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
 import { sortList } from '../components/Sort';
 
 
-function Home() {
+const Home: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const isSearch = useRef(false);
@@ -18,12 +18,12 @@ function Home() {
 	
 
 	const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
-	const pizzas = items.filter(obj => {
+	const pizzas = items.filter((obj: any) => {
 		return obj.title.toLowerCase().includes(searchValue.toLowerCase())
-	}).map((item) => <PizzaBlock key={item.id} {...item} />);
+	}).map((item: any) => <PizzaBlock key={item.id} {...item} />);
 
-	const onChangePage = (number) => {
-		dispatch(setCurrentPage(number))
+	const onChangePage = (page: number) => {
+		dispatch(setCurrentPage(page))
 	};
 
 	const getPizzas = async () => {
@@ -32,13 +32,16 @@ function Home() {
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 		const search = searchValue ? searchValue : '';
 
-		dispatch(fetchPizzas({
+		dispatch(
+			// @ts-ignore
+			fetchPizzas({
 			category,
 			sortBy,
 			order,
 			search,
 			currentPage
-		}));
+			})
+		);
 	}
 
 	//  Если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
