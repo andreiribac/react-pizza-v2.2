@@ -4,7 +4,7 @@ import { Header } from './components';
 import { Home, Cart, NotFound, Pizza } from './pages';
 
 import './scss/app.scss';
-import MainLayout from './layouts/MainLayout';
+// import MainLayout from './layouts/MainLayout';
 
 function App() {
 

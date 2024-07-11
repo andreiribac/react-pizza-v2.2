@@ -6,15 +6,23 @@ import App from './App';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
 
-root.render(
-	//<React.StrictMode>
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+
+  root.render(
+    <React.StrictMode>
 		<Provider store={store}>
 			<BrowserRouter>
 				<App />
 			</BrowserRouter>
 		</Provider>,
-	//</React.StrictMode>
-);
+	</React.StrictMode>
+  );
+} else {
+  console.error('Element with id "root" not found');
+}
+
+
 
