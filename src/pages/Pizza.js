@@ -36,7 +36,10 @@ function Pizza() {
 			<img src={pizza.imageUrl} />
 			{/* <div>{pizza.types}</div> */}
 			{/* <div>{pizza.sizes}</div> */}
-			<div>{pizza.price} p</div>
+			{
+				pizza.price &&
+				<div>{pizza.price} p</div>
+			}
 		</div>
 	)
 }
