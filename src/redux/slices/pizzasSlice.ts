@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 // Функция для получения пицц с учетом параметров
-export const fetchPizzas = createAsyncThunk(
+export const fetchPizzas = createAsyncThunk<Pizza[], { category?: string, sortBy?: string, order?: string, search?: string, currentPage: number }>(
   'pizzas/fetchPizzasStatus',
-  async (params: { category?: string, sortBy?: string, order?: string, search?: string, currentPage: number }) => {
+  async (params) => {
     const { category, sortBy, order, search, currentPage } = params;
 
     // Формируем часть URL с корректными параметрами
@@ -31,35 +31,35 @@ export const fetchPizzas = createAsyncThunk(
 );
 
 type Pizza = {
-  id: string,
-  imageUrl: string,
-  title: string,
-  types: number[],
-  sizes: number[],
-  price: number,
-  category: string,
-  rating: number,
+  id: string;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  category: string;
+  rating: number;
 };
 
 interface PizzaSliceState {
-  items: Pizza[],
-  status: 'idle' | 'loading' | 'succeeded' | 'error',
-  error: string | null
+  items: Pizza[];
+  status: 'idle' | 'loading' | 'succeeded' | 'error';
+  error: string | null;
 }
 
 const initialState: PizzaSliceState = {
   items: [],
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'error'
-  error: null
+  status: 'idle',
+  error: null,
 };
 
 const pizzasSlice = createSlice({
   name: 'pizzas',
   initialState,
   reducers: {
-    setItems(state, action) {
+    setItems(state, action: PayloadAction<Pizza[]>) {
       state.items = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,7 +67,7 @@ const pizzasSlice = createSlice({
         state.status = 'loading';
         state.items = [];
       })
-      .addCase(fetchPizzas.fulfilled, (state, action) => {
+      .addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<Pizza[]>) => {
         state.status = 'succeeded';
         state.items = action.payload;
       })
