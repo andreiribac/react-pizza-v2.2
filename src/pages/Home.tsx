@@ -16,7 +16,15 @@ const Home: React.FC = () => {
 	const { items, status } = useSelector(selectPizzas);
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
-	const skeletons = [...new Array(4)].map((_, index) => ( <Skeleton key={index} /> ));
+	const categories = [
+		"Все",
+		"Мясные",
+		"Вегетарианская",
+		"Гриль",
+		"Острые",
+		"Закрытые",
+	];
+	const skeletons = [...new Array(4)].map((_, index) => (<Skeleton key={index} />));
 	const pizzas = items
 		.filter((obj: any) => {
 			return obj.title.toLowerCase().includes(searchValue.toLowerCase());
@@ -93,7 +101,7 @@ const Home: React.FC = () => {
 				<Categories />
 				<Sort />
 			</div>
-			<h2 className="content__title">Все пиццы</h2>
+			<h2 className="content__title">{categories[categoryId]} пиццы</h2>
 			<div className="content__items">
 				{status === "loading" ? skeletons : pizzas}
 			</div>
