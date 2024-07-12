@@ -14,9 +14,10 @@ interface PizzaBlockProps {
 	price: number,
 	category: string,
 	rating: number,
+	count: number
 }
 
-const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, imageUrl, title, types, sizes, price, }) => {
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, imageUrl, title, types, sizes, price}) => {
 	const dispatch = useDispatch();
 	const cartItem = useSelector(selectCartItemById(id));
 	const [activeType, setActiveType] = useState<number>(0);
@@ -32,6 +33,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, imageUrl, title, types, siz
 			imageUrl,
 			type: typeNames[activeType],
 			size: sizes[activeSize],
+			count: 0,
 		}
 		dispatch(addItem(item))
 	}
