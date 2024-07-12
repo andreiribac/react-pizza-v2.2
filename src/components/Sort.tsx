@@ -19,34 +19,35 @@ export const sortList: SortListItem[] = [
 ];
 
 
-function Sort() {
+const Sort: React.FC = React.memo(() => {
 	const dispatch = useDispatch();
 	const sortRef = useRef<HTMLDivElement>(null);
 	const sort = useSelector(selectFilterSort);
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	
 	const onClickListItem = (item: SortListItem) => {
 		dispatch(setSort(item));
 		setIsOpen(false);
-	}
+	};
 
 	useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				sortRef.current &&
+				!sortRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
 
-    document.body.addEventListener('mousedown', handleClickOutside);
+		document.body.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.body.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [isOpen]);
+		return () => {
+			document.body.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [isOpen]);
 
-	
 	return (
 		<div ref={sortRef} className="sort">
 			<div className="sort__label">
@@ -65,28 +66,29 @@ function Sort() {
 				<b>Сортировка по:</b>
 				<span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>
 			</div>
-			{
-				isOpen &&
+			{isOpen && (
 				<div className="sort__popup">
 					<ul>
-						{
-							sortList.map((item, i) => {
-								return (
-									<li
-										key={item.name+i}
-										onClick={() => onClickListItem(item)}
-										className={sort.sortProperty === item.sortProperty ? "active" : ''}
-									>
-										{item.name}
-									</li>
-								)
-							})
-						}
+						{sortList.map((item, i) => {
+							return (
+								<li
+									key={item.name + i}
+									onClick={() => onClickListItem(item)}
+									className={
+										sort.sortProperty === item.sortProperty
+											? "active"
+											: ""
+									}
+								>
+									{item.name}
+								</li>
+							);
+						})}
 					</ul>
 				</div>
-			}
+			)}
 		</div>
-	)
-}
+	);
+});
 
 export default Sort

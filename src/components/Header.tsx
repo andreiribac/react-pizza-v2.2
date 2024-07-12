@@ -7,9 +7,12 @@ import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
 
 
-function Header() {
+const Header: React.FC = React.memo(() => {
 	const { items, totalPrice } = useSelector(selectCart);
-	const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+	const totalCount = items.reduce(
+		(sum: number, item: any) => sum + item.count,
+		0
+	);
 	const { pathname } = useLocation();
 	return (
 		<div className="header">
@@ -23,8 +26,7 @@ function Header() {
 				</Link>
 				<Search />
 				<div className="header__cart">
-					{
-						!pathname.includes('cart') &&
+					{!pathname.includes("cart") && (
 						<Link to="/cart" className="button button--cart">
 							{totalPrice !== 0 && (
 								<>
@@ -61,15 +63,13 @@ function Header() {
 									strokeLinejoin="round"
 								/>
 							</svg>
-							{
-								totalCount !== 0 && <span>{totalCount}</span>
-							}
+							{totalCount !== 0 && <span>{totalCount}</span>}
 						</Link>
-					}
+					)}
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+});
 
 export default Header

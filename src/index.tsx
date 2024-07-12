@@ -12,13 +12,13 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
 
   root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
 		<Provider store={store}>
 			<BrowserRouter>
 				<App />
 			</BrowserRouter>
 		</Provider>,
-	</React.StrictMode>
+	// </React.StrictMode>
   );
 } else {
   console.error('Element with id "root" not found');

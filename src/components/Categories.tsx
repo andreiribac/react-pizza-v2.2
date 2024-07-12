@@ -1,44 +1,44 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useWhyDidYouUpdate } from "ahooks";
 
-import { setCategoryId, selectFilterCategoryById } from '../redux/slices/filterSlice';
+import { setCategoryId, selectFilterCategoryById, } from "../redux/slices/filterSlice";
 
-
-function Categories() {
-	
-
+const Categories: React.FC = React.memo(() => {
 	const categories = [
-		'Все',
-		'Мясные',
-		'Вегетарианская',
-		'Гриль',
-		'Острые',
-		'Закрытые',
+		"Все",
+		"Мясные",
+		"Вегетарианская",
+		"Гриль",
+		"Острые",
+		"Закрытые",
 	];
 
 	const categoryId = useSelector(selectFilterCategoryById);
 	const dispatch = useDispatch();
-	
+
+	useWhyDidYouUpdate("Categories()", {
+		setCategoryId,
+		selectFilterCategoryById,
+	});
 
 	return (
 		<div className="categories">
 			<ul>
-				{
-					categories.map((categoryName, index) => {
-						return (
-							<li
-								key={categoryName + index}
-								onClick={() => dispatch(setCategoryId(index))}
-								className={categoryId === index ? 'active' : ''}
-							>
-								{categoryName}
-							</li>
-						)
-					})
-				}
+				{categories.map((categoryName, index) => {
+					return (
+						<li
+							key={categoryName + index}
+							onClick={() => dispatch(setCategoryId(index))}
+							className={+categoryId === index ? "active" : ""}
+						>
+							{categoryName}
+						</li>
+					);
+				})}
 			</ul>
 		</div>
-	)
-}
+	);
+});
 
-export default Categories
+export default Categories;
