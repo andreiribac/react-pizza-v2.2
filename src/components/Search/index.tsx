@@ -23,7 +23,7 @@ function Search() {
 		[],
 	);
 
-	const onChangeInput = (e: any) => {
+	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value);
 		updateSearchValue(e.target.value);
 	}
@@ -44,7 +44,7 @@ function Search() {
 			{value &&
 				<IconSvgSelector
 					id='close'
-					onClick={() => onClickClear()}
+					onClick={onClickClear}
 					className={styles.inputArea__iconClose}
 				/>
 			}

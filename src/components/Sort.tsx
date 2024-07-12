@@ -33,17 +33,18 @@ function Sort() {
 	}
 
 	useEffect(() => {
-		const handleClickOutside = (event: any) => {
-			const path = event.path || (event.composedPath && event.composedPath());
-			if (!path.includes(sortRef.current) && isOpen) {
-				setIsOpen(false);
-			}
-		}
-		document.body.addEventListener('click', handleClickOutside);
-		return () => {
-			document.body.removeEventListener('click', handleClickOutside);
-		}
-	}, [isOpen])
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.body.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
 
 	
 	return (

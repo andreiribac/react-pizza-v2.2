@@ -1,6 +1,12 @@
 import React from 'react';
 
-export const IconSvgSelector = ({ id, ...props }) => {
+type IconId = 'search' | 'close' | 'cart-black' | 'trash' | 'minus' | 'plus';
+
+interface IconSvgSelectorProps extends React.SVGProps<SVGSVGElement> {
+  id: IconId;
+}
+
+export const IconSvgSelector: React.FC<IconSvgSelectorProps> = ({ id, ...props }) => {
 	switch (id) {
 		case 'search':
 			return (
