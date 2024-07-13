@@ -1,19 +1,28 @@
-import React from 'react';
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import logo from '../assets/img/pizza-logo.svg';
-import { Search } from '.';
-import { useSelector } from 'react-redux';
-import { selectCart } from '../redux/slices/cartSlice';
-
+import logo from "../assets/img/pizza-logo.svg";
+import { Search } from ".";
+import { useSelector } from "react-redux";
+import { selectCart } from "../redux/cart/selectors";
 
 const Header: React.FC = React.memo(() => {
 	const { items, totalPrice } = useSelector(selectCart);
+	const { pathname } = useLocation();
+	const isMounted = React.useRef(false);
 	const totalCount = items.reduce(
 		(sum: number, item: any) => sum + item.count,
 		0
 	);
-	const { pathname } = useLocation();
+
+	React.useEffect(() => {
+		if ((isMounted.current = true)) {
+			const json = JSON.stringify(items);
+			localStorage.setItem("cart", json);
+		}
+		isMounted.current = true;
+	}, [items]);
+
 	return (
 		<div className="header">
 			<div className="container">
@@ -24,7 +33,7 @@ const Header: React.FC = React.memo(() => {
 						<p>самая вкусная пицца во вселенной</p>
 					</div>
 				</Link>
-				<Search />
+				{!pathname.includes("cart") && <Search />}
 				<div className="header__cart">
 					{!pathname.includes("cart") && (
 						<Link to="/cart" className="button button--cart">
@@ -72,4 +81,4 @@ const Header: React.FC = React.memo(() => {
 	);
 });
 
-export default Header
+export default Header;

@@ -3,8 +3,10 @@ import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination, NotFoundBlock, } from "../components";
-import { setCurrentPage, setFilters, selectFilter, } from "../redux/slices/filterSlice";
-import { fetchPizzas, selectPizzas } from "../redux/slices/pizzasSlice";
+import { setCurrentPage, setFilters, } from "../redux/filter/slice";
+import { selectFilter, } from "../redux/filter/selectors";
+import { fetchPizzas, } from "../redux/pizzas/asyncActions";
+import { selectPizzas } from "../redux/pizzas/selectors";
 import { sortList } from "../components/Sort";
 import { AppDispatch } from "../redux/store"; // Убедитесь, что этот импорт правильный
 

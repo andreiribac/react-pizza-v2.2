@@ -1,23 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { setSort, selectFilterSort } from '../redux/slices/filterSlice';
-
+import { setSort } from "../redux/filter/slice";
+import { selectFilterSort } from "../redux/filter/selectors";
 
 type SortListItem = {
 	name: string;
 	sortProperty: string;
-}
+};
 
 export const sortList: SortListItem[] = [
-	{ name: 'популярности (DESC)', sortProperty: 'rating' },
-	{ name: 'популярности (ASC)', sortProperty: '-rating' },
-	{ name: 'цене (DESC)', sortProperty: 'price' },
-	{ name: 'цене (ASC)', sortProperty: '-price' },
-	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
-	{ name: 'алфавиту (ASC)', sortProperty: '-title' }
+	{ name: "популярности (DESC)", sortProperty: "rating" },
+	{ name: "популярности (ASC)", sortProperty: "-rating" },
+	{ name: "цене (DESC)", sortProperty: "price" },
+	{ name: "цене (ASC)", sortProperty: "-price" },
+	{ name: "алфавиту (DESC)", sortProperty: "title" },
+	{ name: "алфавиту (ASC)", sortProperty: "-title" },
 ];
-
 
 const Sort: React.FC = React.memo(() => {
 	const dispatch = useDispatch();
@@ -91,4 +90,4 @@ const Sort: React.FC = React.memo(() => {
 	);
 });
 
-export default Sort
+export default Sort;
