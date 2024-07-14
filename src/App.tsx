@@ -1,23 +1,27 @@
-import React from 'react'
+import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Header } from './components';
-import { Home, Cart, NotFound, Pizza } from './pages';
+import { Header } from "./components";
+import Home from "./pages/Home";
+import "./scss/app.scss";
 
-import './scss/app.scss';
-// import MainLayout from './layouts/MainLayout';
+// Ленивый импорт компонентов
+const Cart = React.lazy(() => import("../src/pages/Cart"));
+const NotFound = React.lazy(() => import("../src/pages/NotFound"));
+const Pizza = React.lazy(() => import("../src/pages/Pizza"));
 
 function App() {
-
 	return (
 		<div className="wrapper">
 			<Header />
 			<div className="content">
-				<Routes>
-					<Route index path="/" element={<Home />} />
-					<Route path="/cart" element={<Cart />} />
-					<Route path="/pizza/:id" element={<Pizza />} />
-					<Route path="*" element={<NotFound />} />
-				</Routes>
+				<Suspense fallback={<div>Загрузка...</div>}>
+					<Routes>
+						<Route index path="/" element={<Home />} />
+						<Route path="/cart" element={<Cart />} />
+						<Route path="/pizza/:id" element={<Pizza />} />
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+				</Suspense>
 			</div>
 		</div>
 	);
